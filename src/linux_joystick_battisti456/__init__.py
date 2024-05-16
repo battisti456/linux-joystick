@@ -6,7 +6,7 @@ JS_PRE = 'js'
 def js_path(joystickNumber:int = 0) -> str:
     return f"{JS_DIR}/{JS_PRE}{joystickNumber}"
 
-def available(joystickNumber:int = 0) -> bool:
+def js_available(joystickNumber:int = 0) -> bool:
     """Check if a joystick is connected and ready to use."""
     return os.path.exists(js_path(joystickNumber))
 
