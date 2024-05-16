@@ -3,7 +3,7 @@
 
 # Load the libraries
 import sys
-import Gamepad
+import src.linux_joystick_battisti456.Gamepad as Gamepad
 import time
 sys.path.insert(0, "/home/pi/thunderborg")
 import ThunderBorg

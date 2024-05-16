@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # Load the gamepad and time libraries
-import Gamepad
+import src.linux_joystick_battisti456.Gamepad as Gamepad
 import time
 
 # Wait for a connection

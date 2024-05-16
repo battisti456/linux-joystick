@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[project]
+name = "linux_joystick_battisti456"
+version = "0.0.1"
+authors = [
+    { name = "Autumn Battisti", email = "battisti456@gmail.com" }
+]
+description = "A modified version of https://github.com/piborg/Gamepad/tree/master for easier install"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux"
+]
+
+[project.urls]
+Homepage = "https://github.com/battisti456/linux-joystick"
+Original = "https://github.com/piborg/Gamepad"

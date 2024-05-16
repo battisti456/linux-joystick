@@ -1,29 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-"""
-This module is designed to read inputs from a gamepad or joystick.
-See Controllers.py the names which can be used with specific gamepad types.
-
-For basic use see the following examples:
-    AsyncExample.py         - Updates read in the background.
-    EventExample.py         - Updates passed to callback functions.
-    PollingExample.py       - Reading updates one at a time.
-    AsyncAndEventExample.py - Mixing callbacks and background updates.
-"""
-
 import os
-import sys
 import struct
 import time
 import threading
-import inspect
-
-def available(joystickNumber = 0):
-    """Check if a joystick is connected and ready to use."""
-    joystickPath = '/dev/input/js' + str(joystickNumber)
-    return os.path.exists(joystickPath)
 
 class Gamepad:
+    #region constants
     EVENT_CODE_BUTTON = 0x01
     EVENT_CODE_AXIS = 0x02
     EVENT_CODE_INIT_BUTTON = 0x80 | EVENT_CODE_BUTTON
@@ -33,7 +14,7 @@ class Gamepad:
     EVENT_BUTTON = 'BUTTON'
     EVENT_AXIS = 'AXIS'
     fullName = 'Generic (numbers only)'
-
+    #endregion
     class UpdateThread(threading.Thread):
         """Thread used to continually run the updateState function on a Gamepad in the background
 
@@ -92,7 +73,7 @@ class Gamepad:
             self.joystickFile.close()
         except AttributeError:
             pass
-
+#region event code
     def _setupReverseMaps(self):
         for index in self.buttonNames:
             self.buttonIndex[self.buttonNames[index]] = index
@@ -244,7 +225,8 @@ class Gamepad:
             return self.getNextEvent()
         else:
             return eventName, entityName, finalValue
-
+#endregion
+#region updated code
     def updateState(self):
         """Updates the internal button and axis states with the next pending event.
 
@@ -319,7 +301,8 @@ class Gamepad:
         while not self.isReady() and self.connected:
             time.sleep(1.0)
             self.updateState()
-
+#endregion
+#region button state code
     def isPressed(self, buttonName):
         """Returns the last observed state of a gamepad button specified by name or index.
         True if pressed, False if not pressed.
@@ -377,7 +360,7 @@ class Gamepad:
             raise ValueError('Button %i was not found' % buttonIndex)
         except ValueError:
             raise ValueError('Button name %s was not found' % buttonName)
-
+#endregion
     def axis(self, axisName):
         """Returns the last observed state of a gamepad axis specified by name or index.
         Throws a ValueError if the axis index is unavailable.
@@ -409,7 +392,7 @@ class Gamepad:
     def isConnected(self):
         """Returns True until reading from the device fails."""
         return self.connected
-
+#region handler code
     def addButtonPressedHandler(self, buttonName, callback):
         """Adds a callback for when a specific button specified by name or index is pressed.
         This callback gets no parameters passed."""
@@ -533,7 +516,7 @@ class Gamepad:
             self.releasedEventMap[index] = []
             self.changedEventMap[index] = []
             self.movedEventMap[index] = []
-
+#endregion
     def disconnect(self):
         """Cleanly disconnect and remove any threads and event handlers."""
         self.connected = False
@@ -541,76 +524,3 @@ class Gamepad:
         self.stopBackgroundUpdates()
         del self.joystickFile
 
-###########################
-# Import gamepad mappings #
-###########################
-scriptDir = os.path.dirname(os.path.realpath(__file__))
-controllerScript = os.path.join(scriptDir, "Controllers.py")
-exec(open(controllerScript).read())
-
-# Generate a list of available gamepad types
-moduleDict = globals()
-classList = [moduleDict[a] for a in moduleDict.keys() if inspect.isclass(moduleDict[a])]
-controllerDict = {}
-deviceNames = []
-for gamepad in classList:
-    controllerDict[gamepad.__name__.upper()] = gamepad
-    deviceNames.append(gamepad.__name__)
-deviceNames.sort()
-
-##################################################################
-# When this script is run it provides testing code for a gamepad #
-##################################################################
-
-if __name__ == "__main__":
-    # Python 2/3 compatibility
-    try:
-        input = raw_input
-    except NameError:
-        pass
-
-    # ANSI colour code sequences
-    GREEN = '\033[0;32m'
-    CYAN = '\033[0;36m'
-    BLUE = '\033[1;34m'
-    RESET = '\033[0m'
-
-    # Ask for the gamepad to use
-    print('Gamepad axis and button events...')
-    print('Press CTRL+C to exit')
-    print('')
-    print('Available device names:')
-    formatString = '    ' + GREEN + '%s' + RESET + ' - ' + CYAN + '%s' + RESET
-    for device in deviceNames:
-        print(formatString % (device, controllerDict[device.upper()].fullName))
-    print('')
-    print('What device name are you using (leave blank if not in the list)')
-    device = input('? ' + GREEN).strip().upper()
-    print(RESET)
-
-    # Wait for a connection
-    if not available():
-        print('Please connect your gamepad...')
-        while not available():
-            time.sleep(1.0)
-    print('Gamepad connected')
-
-    # Pick the correct class
-    if device in controllerDict:
-        print(controllerDict[device].fullName)
-        gamepad = controllerDict[device]()
-    elif device == '':
-        print('Unspecified gamepad')
-        print('')
-        gamepad = Gamepad()
-    else:
-        print('Unknown gamepad')
-        print('')
-        sys.exit()
-
-    # Display the event messages as they arrive
-    while True:
-        eventType, index, value = gamepad.getNextEvent()
-        print(BLUE + eventType + RESET + ',\t  ' +
-              GREEN + str(index) + RESET + ',\t' +
-              CYAN + str(value) + RESET)
