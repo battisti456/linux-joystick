@@ -1,11 +1,11 @@
-from . import Gamepad
+from .Gamepad import Gamepad
 
 class PS3(Gamepad):
     fullName = 'PlayStation 3 controller'
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
             2: 'L2',
@@ -13,7 +13,7 @@ class PS3(Gamepad):
             4: 'RIGHT-Y',
             5: 'R2'
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'CROSS',
             1:  'CIRCLE',
             2:  'TRIANGLE',
@@ -39,7 +39,7 @@ class PS4(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
             2: 'L2',
@@ -49,7 +49,7 @@ class PS4(Gamepad):
             6: 'DPAD-X',
             7: 'DPAD-Y'
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'CROSS',
             1:  'CIRCLE',
             2:  'TRIANGLE',
@@ -71,7 +71,7 @@ class Xbox360(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
             2: 'LT',
@@ -79,7 +79,7 @@ class Xbox360(Gamepad):
             4: 'RIGHT-Y',
             5: 'RT'
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'A',
             1:  'B',
             2:  'X',
@@ -99,7 +99,7 @@ class XboxONE(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LAS -X', #Left Analog Stick Left/Right
             1: 'LAS -Y', #Left Analog Stick Up/Down
             2: 'RAS -X', #Right Analog Stick Left/Right
@@ -109,7 +109,7 @@ class XboxONE(Gamepad):
             6: 'DPAD -X', #D-Pad Left/Right
             7: 'DPAD -Y' #D-Pad Up/Down
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'A', #A Button
             1:  'B', #B Button
             3:  'X', #X Button
@@ -129,7 +129,7 @@ class Steam(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'AS -X', #Analog Stick Left/Right
             1: 'AS -Y', #Analog Stick Up/Down
             2: 'RTP -X', #Right Track Pad Left/Right
@@ -139,7 +139,7 @@ class Steam(Gamepad):
             6: 'RTA', #Right Trigger Axis
             7: 'LTA' #Left Trigger Axis
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'LPTBUTTON', #Left TrackPad button
             1:  'RTPBUTTON', #Right TrackPad button
             2:  'A', #A Button
@@ -168,7 +168,7 @@ class MMP1251(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
             2: 'L2',
@@ -178,7 +178,7 @@ class MMP1251(Gamepad):
             6: 'DPAD-X',
             7: 'DPAD-Y'
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'A',
             1:  'B',
             2:  'X',
@@ -198,11 +198,11 @@ class GameHat(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y'
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'A',
             1:  'B',
             2:  'X',
@@ -219,7 +219,7 @@ class PG9099(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'LAS -X', #Left Analog Stick Left/Right
             1: 'LAS -Y', #Left Analog Stick Up/Down
             2: 'RAS -X', #Right Analog Stick Left/Right
@@ -229,7 +229,7 @@ class PG9099(Gamepad):
             6: 'DPAD -X', #D-Pad Left/Right
             7: 'DPAD -Y' #D-Pad Up/Down
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0:  'A', #A Button
             1:  'B', #B Button
             3:  'X', #X Button
@@ -257,12 +257,12 @@ class example(Gamepad):
 
     def __init__(self, joystickNumber = 0):
         Gamepad.__init__(self, joystickNumber)
-        self.axisNames = {
+        self.axisNames = {#type:ignore
             0: 'AXIS0',
             1: 'AXIS1',
             2: 'AXIS2'
         }
-        self.buttonNames = {
+        self.buttonNames = {#type:ignore
             0: 'BUTTON0',
             1: 'BUTTON1',
             2: 'BUTTON2'

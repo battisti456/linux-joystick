@@ -1,5 +1,4 @@
 import os
-from . import Gamepad
 
 JS_DIR = '/dev/input'
 JS_PRE = 'js'
