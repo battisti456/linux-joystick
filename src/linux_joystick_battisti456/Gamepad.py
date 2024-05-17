@@ -408,38 +408,45 @@ class Gamepad:
     def addButtonPressedHandler(self, buttonName:ButtonName, callback:Callable[[],None]):
         """Adds a callback for when a specific button specified by name or index is pressed.
         This callback gets no parameters passed."""
-        self.pressedEventMap[self.getButtonIndex(buttonName)].add(callback)
+        self._interact_handler(self.getButtonIndex(buttonName),callback,self.pressedEventMap,True)
 
     def removeButtonPressedHandler(self, buttonName:ButtonName, callback:Callable[[],None]):
         """Removes a callback for when a specific button specified by name or index is pressed."""
-        self.pressedEventMap[self.getButtonIndex(buttonName)].remove(callback)
+        self._interact_handler(self.getButtonIndex(buttonName),callback,self.pressedEventMap,False)
 
     def addButtonReleasedHandler(self, buttonName:ButtonName, callback:Callable[[],None]):
         """Adds a callback for when a specific button specified by name or index is released.
         This callback gets no parameters passed."""
-        self.releasedEventMap[self.getButtonIndex(buttonName)].add(callback)
+        self._interact_handler(self.getButtonIndex(buttonName),callback,self.releasedEventMap,True)
 
     def removeButtonReleasedHandler(self, buttonName:ButtonName, callback:Callable[[],None]):
         """Removes a callback for when a specific button specified by name or index is released."""
-        self.releasedEventMap[self.getButtonIndex(buttonName)].remove(callback)
+        self._interact_handler(self.getButtonIndex(buttonName),callback,self.releasedEventMap,False)
 
     def addButtonChangedHandler(self, buttonName:ButtonName, callback:Callable[[bool],None]):
         """Adds a callback for when a specific button specified by name or index changes.
         This callback gets a boolean for the button pressed state."""
-        self.changedEventMap[self.getButtonIndex(buttonName)].add(callback)
+        self._interact_handler(self.getButtonIndex(buttonName),callback,self.changedEventMap,True)
 
     def removeButtonChangedHandler(self, buttonName:ButtonName, callback:Callable[[bool],None]):
         """Removes a callback for when a specific button specified by name or index changes."""
-        self.changedEventMap[self.getButtonIndex(buttonName)].remove(callback)
+        self._interact_handler(self.getButtonIndex(buttonName),callback,self.changedEventMap,False)
 
     def addAxisMovedHandler(self, axisName:AxisName, callback:Callable[[float],None]):
         """Adds a callback for when a specific axis specified by name or index changes.
         This callback gets the updated position of the axis."""
-        self.movedEventMap[self.getAxisIndex(axisName)].add(callback)
+        self._interact_handler(self.getAxisIndex(axisName),callback,self.movedEventMap,True)
 
     def removeAxisMovedHandler(self, axisName:AxisName, callback:Callable[[float],None]):
         """Removes a callback for when a specific axis specified by name or index changes."""
-        self.movedEventMap[self.getAxisIndex(axisName)].remove(callback)
+        self._interact_handler(self.getAxisIndex(axisName),callback,self.movedEventMap,False)
+    def _interact_handler[Index,CallType](self,index:Index,callback:CallType,event_map:dict[Index,set[CallType]],add:bool):
+        if not index in event_map:
+            event_map[index] = set()
+        if add:
+            event_map[index].add(callback)
+        else:
+            event_map[index].difference_update({callback})
 
     def removeAllEventHandlers(self):
         """Removes all event handlers from all axes and buttons."""
