@@ -197,7 +197,7 @@ class Gamepad:
             for callback in self.changedEventMap[bindex]:
                 callback(finalValue)
         elif eventType == Gamepad.EVENT_CODE_AXIS:
-            aindex:AxisID = index:#type:ignore
+            aindex:AxisID = index#type:ignore
             eventName = Gamepad.EVENT_AXIS
             if aindex in self.axisNames:
                 entityName = self.axisNames[aindex]
