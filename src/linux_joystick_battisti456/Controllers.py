@@ -268,3 +268,33 @@ class example(BaseGamepad):
             2: 'BUTTON2'
         }
         self._setupReverseMaps()
+
+class CorePlusWiredController(BaseGamepad):
+    fullName = 'Core (Plus) Wired Controller'
+    def __init__(self, joystickNumber = 0):
+        BaseGamepad.__init__(self, joystickNumber)
+        self.axisNames = {#type:ignore
+            0: 'LAS -X',
+            1: 'LAS -Y',
+            2: 'RAS -X',
+            3: 'RAS -Y',
+            4: 'DPAD -X',
+            5: 'DPAD -Y'
+        }
+        self.buttonNames = {#type:ignore
+            4: 'LB',
+            5: 'RB',
+            6: 'LT',
+            7: 'RT',
+            2: 'A',
+            1: 'B',
+            0: 'Y',
+            3: 'X',
+            9: 'PLUS',
+            8: 'MINUS',
+            12: 'HOME',
+            13: 'CAPTURE',
+            10: 'LASB',
+            11: 'RASB'
+        }
+        self._setupReverseMaps()

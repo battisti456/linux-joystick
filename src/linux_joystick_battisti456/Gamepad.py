@@ -156,7 +156,7 @@ class Gamepad:
         else:
             return '%010u: Unknown event %u, Index %u, Value %i' % (timestamp, eventType, index, value)
 
-    def getNextEvent(self, skipInit = True):
+    def getNextEvent(self, skipInit = True) -> tuple[Literal['BUTTON','AXIS']|None,InpID|AxisName|ButtonName|None,bool|float|None]:
         """Returns the next event from the gamepad.
 
         The return format is:

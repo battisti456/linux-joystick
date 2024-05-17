@@ -11,7 +11,7 @@ if TYPE_CHECKING:
         ...
 
 known_controller_names:dict[str,type[BaseGamepad]] = {
-    "Core (Plus) Wired Controller" : BaseGamepad
+    "Core (Plus) Wired Controller" : CorePlusWiredController
 }
 
 def get_name(num:int):
