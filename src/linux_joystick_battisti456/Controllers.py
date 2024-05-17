@@ -271,6 +271,8 @@ class example(BaseGamepad):
 
 class CorePlusWiredController(BaseGamepad):
     fullName = 'Core (Plus) Wired Controller'
+    EVENT_CODE_BUTTON = BaseGamepad.EVENT_CODE_INIT_BUTTON
+    EVENT_CODE_AXIS = BaseGamepad.EVENT_CODE_INIT_AXIS
     def __init__(self, joystickNumber = 0):
         BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
