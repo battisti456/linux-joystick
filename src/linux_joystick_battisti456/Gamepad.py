@@ -255,22 +255,26 @@ class Gamepad:
             if value == 0:
                 finalValue = False
                 self.wasReleasedMap[bindex] = True
-                for callback in self.releasedEventMap[bindex]:
-                    callback()
+                if bindex in self.releasedEventMap:
+                    for callback in self.releasedEventMap[bindex]:
+                        callback()
             else:
                 finalValue = True
                 self.wasPressedMap[bindex] = True
-                for callback in self.pressedEventMap[bindex]:
-                    callback()
+                if bindex in self.pressedEventMap:
+                    for callback in self.pressedEventMap[bindex]:
+                        callback()
             self.pressedMap[bindex] = finalValue
-            for callback in self.changedEventMap[bindex]:
-                callback(finalValue)
+            if bindex in self.changedEventMap:
+                for callback in self.changedEventMap[bindex]:
+                    callback(finalValue)
         elif eventType == self.EVENT_CODE_AXIS:
             aindex:AxisID = index#type:ignore
             finalValue = value / self.MAX_AXIS
             self.axisMap[aindex] = finalValue
-            for callback in self.movedEventMap[aindex]:
-                callback(finalValue)
+            if aindex in self.movedEventMap:
+                for callback in self.movedEventMap[aindex]:
+                    callback(finalValue)
         elif eventType == self.EVENT_CODE_INIT_BUTTON:
             bindex:ButtonID = index#type:ignore
             if value == 0:
