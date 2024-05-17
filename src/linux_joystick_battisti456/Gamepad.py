@@ -156,7 +156,7 @@ class Gamepad:
         else:
             return '%010u: Unknown event %u, Index %u, Value %i' % (timestamp, eventType, index, value)
 
-    def getNextEvent(self, skipInit = True) -> tuple[Literal['BUTTON','AXIS']|None,InpID|AxisName|ButtonName|None,bool|float|None]:
+    def getNextEvent(self, skipInit = True, noSkip = False) -> tuple[Literal['BUTTON','AXIS']|None,InpID|AxisName|ButtonName|None,bool|float|None]|None:
         """Returns the next event from the gamepad.
 
         The return format is:
@@ -242,6 +242,9 @@ class Gamepad:
             skip = skipInit
         else:
             skip = True
+        
+        if skip and noSkip:
+            return None
 
         if skip:
             return self.getNextEvent()
