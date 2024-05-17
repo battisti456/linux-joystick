@@ -3,6 +3,7 @@ from typing import NewType, Literal,Callable
 import struct
 import time
 import threading
+import select
 
 from . import js_path
 
@@ -65,6 +66,9 @@ class Gamepad:
                     time.sleep(0.5)
                 else:
                     raise IOError('Could not open gamepad %s: %s' % (self.joystickNumber, str(e)))
+        self.joystickPoll = select.poll()
+        self.joystickPoll.register(self.joystickFile,select.POLLIN)        
+        
         self.eventSize = struct.calcsize('IhBB')
         self.pressedMap:dict[ButtonID,bool] = {}
         self.wasPressedMap:dict[ButtonID,bool] = {}
@@ -155,7 +159,9 @@ class Gamepad:
             return '%010u: Axis %s initially at %+06.1f %%' % (timestamp, axis, position * 100)
         else:
             return '%010u: Unknown event %u, Index %u, Value %i' % (timestamp, eventType, index, value)
-
+    def isNextEvent(self) -> bool:
+        """returns whether there is something to read form the file"""
+        return bool(self.joystickPoll.poll(0))
     def getNextEvent(self, skipInit = True, noSkip = False) -> tuple[Literal['BUTTON','AXIS']|None,InpID|AxisName|ButtonName|None,bool|float|None]|None:
         """Returns the next event from the gamepad.
 
