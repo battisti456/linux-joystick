@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     def ioctl(fd:IO[bytes],request:int,arg:int|bytes|bytearray|array.array[int]=0,mutate_flag=True):
         ...
 
-known_controller_names:dict[str,type[Gamepad]] = {
-    "Core (Plus) Wired Controller" : Gamepad
+known_controller_names:dict[str,type[BaseGamepad]] = {
+    "Core (Plus) Wired Controller" : BaseGamepad
 }
 
 def get_name(num:int):
@@ -26,14 +26,14 @@ def get_name(num:int):
         name:str = buf.tobytes().rstrip(b'\x00').decode('utf-8')
     return name
 
-def get_gamepad_type(name:str) -> type[Gamepad]:
+def get_gamepad_type(name:str) -> type[BaseGamepad]:
     if name in known_controller_names:
         return known_controller_names[name]
     else:
         print(f"WARNING: Gamepad with name '{name}' not known!")
-        return Gamepad
+        return BaseGamepad
 
-def load_controller(num:int) -> Gamepad|None:
+def load_controller(num:int) -> BaseGamepad|None:
     if not js_available(num):
         return None
     name:str = get_name(num)

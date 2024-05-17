@@ -1,10 +1,10 @@
-from .Gamepad import Gamepad
+from .Gamepad import Gamepad as BaseGamepad
 
-class PS3(Gamepad):
+class PS3(BaseGamepad):
     fullName = 'PlayStation 3 controller'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
@@ -34,11 +34,11 @@ class PS3(Gamepad):
         }
         self._setupReverseMaps()
 
-class PS4(Gamepad):
+class PS4(BaseGamepad):
     fullName = 'PlayStation 4 controller'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
@@ -66,11 +66,11 @@ class PS4(Gamepad):
         }
         self._setupReverseMaps()
 
-class Xbox360(Gamepad):
+class Xbox360(BaseGamepad):
     fullName = 'Xbox 360 controller'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
@@ -94,11 +94,11 @@ class Xbox360(Gamepad):
         }
         self._setupReverseMaps()
 
-class XboxONE(Gamepad):
+class XboxONE(BaseGamepad):
     fullName = 'Xbox ONE controller'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LAS -X', #Left Analog Stick Left/Right
             1: 'LAS -Y', #Left Analog Stick Up/Down
@@ -124,11 +124,11 @@ class XboxONE(Gamepad):
         }
         self._setupReverseMaps()
         
-class Steam(Gamepad):
+class Steam(BaseGamepad):
     fullName = 'Steam controller'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'AS -X', #Analog Stick Left/Right
             1: 'AS -Y', #Analog Stick Up/Down
@@ -163,11 +163,11 @@ class Steam(Gamepad):
         }
         self._setupReverseMaps()
 
-class MMP1251(Gamepad):
+class MMP1251(BaseGamepad):
     fullName = "ModMyPi Raspberry Pi Wireless USB Gamepad"
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y',
@@ -193,11 +193,11 @@ class MMP1251(Gamepad):
         }
         self._setupReverseMaps()
 
-class GameHat(Gamepad):
+class GameHat(BaseGamepad):
     fullName = "WaveShare rpi GameHat "
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LEFT-X',
             1: 'LEFT-Y'
@@ -214,11 +214,11 @@ class GameHat(Gamepad):
         }
         self._setupReverseMaps()
 
-class PG9099(Gamepad):
+class PG9099(BaseGamepad):
     fullName = 'ipega PG-9099 Bluetooth Controller'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'LAS -X', #Left Analog Stick Left/Right
             1: 'LAS -Y', #Left Analog Stick Up/Down
@@ -245,7 +245,7 @@ class PG9099(Gamepad):
         self._setupReverseMaps()
     
 
-class example(Gamepad):
+class example(BaseGamepad):
     # This class must have self.axisNames with a map
     # of numbers to capitalised strings. Follow the
     # conventions the other classes use for generic
@@ -256,7 +256,7 @@ class example(Gamepad):
     fullName = 'Enter the human readable name of the device here'
 
     def __init__(self, joystickNumber = 0):
-        Gamepad.__init__(self, joystickNumber)
+        BaseGamepad.__init__(self, joystickNumber)
         self.axisNames = {#type:ignore
             0: 'AXIS0',
             1: 'AXIS1',
