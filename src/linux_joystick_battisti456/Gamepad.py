@@ -117,7 +117,7 @@ class Gamepad:
     def _rawEventToDescription(self, event):
         """Decodes the raw event from getNextEventRaw into a formatted string."""
         timestamp, value, eventType, index = event
-        if eventType == Gamepad.EVENT_CODE_BUTTON:
+        if eventType == self.EVENT_CODE_BUTTON:
             if index in self.buttonNames:
                 button = self.buttonNames[index]
             else:
@@ -128,14 +128,14 @@ class Gamepad:
                 return '%010u: button %s pressed' % (timestamp, button)
             else:
                 return '%010u: button %s state %i' % (timestamp, button, value)
-        elif eventType == Gamepad.EVENT_CODE_AXIS:
+        elif eventType == self.EVENT_CODE_AXIS:
             if index in self.axisNames:
                 axis = self.axisNames[index]
             else:
                 axis = str(index)
-            position = value / Gamepad.MAX_AXIS
+            position = value / self.MAX_AXIS
             return '%010u: Axis %s at %+06.1f %%' % (timestamp, axis, position * 100)
-        elif eventType == Gamepad.EVENT_CODE_INIT_BUTTON:
+        elif eventType == self.EVENT_CODE_INIT_BUTTON:
             if index in self.buttonNames:
                 button = self.buttonNames[index]
             else:
@@ -146,12 +146,12 @@ class Gamepad:
                 return '%010u: button %s initially pressed' % (timestamp, button)
             else:
                 return '%010u: button %s initially state %i' % (timestamp, button, value)
-        elif eventType == Gamepad.EVENT_CODE_INIT_AXIS:
+        elif eventType == self.EVENT_CODE_INIT_AXIS:
             if index in self.axisNames:
                 axis = self.axisNames[index]
             else:
                 axis = str(index)
-            position = value / Gamepad.MAX_AXIS
+            position = value / self.MAX_AXIS
             return '%010u: Axis %s initially at %+06.1f %%' % (timestamp, axis, position * 100)
         else:
             return '%010u: Unknown event %u, Index %u, Value %i' % (timestamp, eventType, index, value)
@@ -176,9 +176,9 @@ class Gamepad:
         eventName = None
         entityName = None
         finalValue = None
-        if eventType == Gamepad.EVENT_CODE_BUTTON:
+        if eventType == self.EVENT_CODE_BUTTON:
             bindex:ButtonID = index#type: ignore
-            eventName = Gamepad.EVENT_BUTTON
+            eventName = self.EVENT_BUTTON
             if bindex in self.buttonNames:
                 entityName = self.buttonNames[bindex]
             else:
@@ -196,20 +196,20 @@ class Gamepad:
             self.pressedMap[bindex] = finalValue
             for callback in self.changedEventMap[bindex]:
                 callback(finalValue)
-        elif eventType == Gamepad.EVENT_CODE_AXIS:
+        elif eventType == self.EVENT_CODE_AXIS:
             aindex:AxisID = index#type:ignore
-            eventName = Gamepad.EVENT_AXIS
+            eventName = self.EVENT_AXIS
             if aindex in self.axisNames:
                 entityName = self.axisNames[aindex]
             else:
                 entityName = index
-            finalValue = value / Gamepad.MAX_AXIS
+            finalValue = value / self.MAX_AXIS
             self.axisMap[aindex] = finalValue
             for callback in self.movedEventMap[aindex]:
                 callback(finalValue)
-        elif eventType == Gamepad.EVENT_CODE_INIT_BUTTON:
+        elif eventType == self.EVENT_CODE_INIT_BUTTON:
             bindex:ButtonID = index#type: ignore
-            eventName = Gamepad.EVENT_BUTTON
+            eventName = self.EVENT_BUTTON
             if bindex in self.buttonNames:
                 entityName = self.buttonNames[bindex]
             else:
@@ -225,14 +225,14 @@ class Gamepad:
             self.releasedEventMap[bindex] = set()
             self.changedEventMap[bindex] = set()
             skip = skipInit
-        elif eventType == Gamepad.EVENT_CODE_INIT_AXIS:
+        elif eventType == self.EVENT_CODE_INIT_AXIS:
             aindex:AxisID = index#type:ignore
-            eventName = Gamepad.EVENT_AXIS
+            eventName = self.EVENT_AXIS
             if aindex in self.axisNames:
                 entityName = self.axisNames[aindex]
             else:
                 entityName = index
-            finalValue = value / Gamepad.MAX_AXIS
+            finalValue = value / self.MAX_AXIS
             self.axisMap[aindex] = finalValue
             self.movedEventMap[aindex] = set()
             skip = skipInit
@@ -250,7 +250,7 @@ class Gamepad:
 
         This call waits for a new event if there are not any waiting to be processed."""
         self.lastTimestamp, value, eventType, index = self._getNextEventRaw()
-        if eventType == Gamepad.EVENT_CODE_BUTTON:
+        if eventType == self.EVENT_CODE_BUTTON:
             bindex:ButtonID = index#type:ignore
             if value == 0:
                 finalValue = False
@@ -265,13 +265,13 @@ class Gamepad:
             self.pressedMap[bindex] = finalValue
             for callback in self.changedEventMap[bindex]:
                 callback(finalValue)
-        elif eventType == Gamepad.EVENT_CODE_AXIS:
+        elif eventType == self.EVENT_CODE_AXIS:
             aindex:AxisID = index#type:ignore
-            finalValue = value / Gamepad.MAX_AXIS
+            finalValue = value / self.MAX_AXIS
             self.axisMap[aindex] = finalValue
             for callback in self.movedEventMap[aindex]:
                 callback(finalValue)
-        elif eventType == Gamepad.EVENT_CODE_INIT_BUTTON:
+        elif eventType == self.EVENT_CODE_INIT_BUTTON:
             bindex:ButtonID = index#type:ignore
             if value == 0:
                 finalValue = False
@@ -283,9 +283,9 @@ class Gamepad:
             self.pressedEventMap[bindex] = set()
             self.releasedEventMap[bindex] = set()
             self.changedEventMap[bindex] = set()
-        elif eventType == Gamepad.EVENT_CODE_INIT_AXIS:
+        elif eventType == self.EVENT_CODE_INIT_AXIS:
             aindex:AxisID = index#type:ignore
-            finalValue = value / Gamepad.MAX_AXIS
+            finalValue = value / self.MAX_AXIS
             self.axisMap[aindex] = finalValue
             self.movedEventMap[aindex] = set()
 
@@ -297,7 +297,7 @@ class Gamepad:
         if self.updateThread is not None:
             if self.updateThread.running:
                 raise RuntimeError('Called startBackgroundUpdates when the update thread is already running')
-        self.updateThread = Gamepad.UpdateThread(self)
+        self.updateThread = self.UpdateThread(self)
         self.updateThread.start()
         if waitForReady:
             while not self.isReady() and self.connected:
